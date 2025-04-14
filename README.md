@@ -69,25 +69,25 @@ CUDA_VISIBLE_DEVICES=6 python batch_consistency.py --config path/to/consistency/
 ## Data used in Paper
 
 #### Nuclei (Light Microscopy)
-BBBC039 -- https://bbbc.broadinstitute.org/BBBC039 
-DSB2018 -- https://bbbc.broadinstitute.org/BBBC038 
-Go-Nuclear -- https://www.ebi.ac.uk/biostudies/BioImages/studies/S-BIAD1026?query=S-BIAD1026 
-HeLaNuc -- https://rodare.hzdr.de/record/3001 
-Hoechst -- https://zenodo.org/records/6657260 
-S-BIAD634 -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD634?query=S-BIAD634 
-S-BIAD895 -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD895 
-S-BAID1196 (SELMA3D) -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD1196?query=S-BIAD1196
-S-BIAD1410 -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD1410?query=S-BIAD1410
+- BBBC039 -- https://bbbc.broadinstitute.org/BBBC039 
+- DSB2018 -- https://bbbc.broadinstitute.org/BBBC038 
+- Go-Nuclear -- https://www.ebi.ac.uk/biostudies/BioImages/studies/S-BIAD1026?query=S-BIAD1026 
+- HeLaNuc -- https://rodare.hzdr.de/record/3001 
+- Hoechst -- https://zenodo.org/records/6657260 
+- S-BIAD634 -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD634?query=S-BIAD634 
+- S-BIAD895 -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD895 
+- S-BAID1196 (SELMA3D) -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD1196?query=S-BIAD1196
+- S-BIAD1410 -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD1410?query=S-BIAD1410
 
 #### Mitochondria (EM)
-EPFL -- https://www.epfl.ch/labs/cvlab/data/data-em/ 
-Hmito -- https://mitoem.grand-challenge.org/ 
-Rmito -- https://mitoem.grand-challenge.org/ 
-VNC -- https://connectomics.hms.harvard.edu/adult-drosophila-vnc-tem-dataset-female-adult-nerve-cord-fanc
+- EPFL -- https://www.epfl.ch/labs/cvlab/data/data-em/ 
+- Hmito -- https://mitoem.grand-challenge.org/ 
+- Rmito -- https://mitoem.grand-challenge.org/ 
+- VNC -- https://connectomics.hms.harvard.edu/adult-drosophila-vnc-tem-dataset-female-adult-nerve-cord-fanc
 
 #### Cells (Light Microscopy)
-FlyWing -- https://elifesciences.org/articles/57613
-Ovules -- https://elifesciences.org/articles/57613 
-PNAS -- https://pubmed.ncbi.nlm.nih.gov/27930326/ 
+- FlyWing -- https://elifesciences.org/articles/57613
+- Ovules -- https://elifesciences.org/articles/57613 
+- PNAS -- https://pubmed.ncbi.nlm.nih.gov/27930326/ 
 
 
