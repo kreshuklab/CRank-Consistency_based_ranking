@@ -24,7 +24,7 @@ conda activate CRank
 
 #### Download Pre-trained models
 
-The model checkpoints and training configs are saved on zenodo and can be downloaded and unzipped https://doi.org/10.5281/zenodo.15209567
+The model checkpoints and training configs are saved on zenodo and can be downloaded and unzipped https://doi.org/10.5281/zenodo.15211900
 
 
 #### Download Data
