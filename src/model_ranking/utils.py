@@ -249,7 +249,7 @@ def get_output_dir(
     output_folder: Optional[str] = "patchwise",
     approach: str = "consistency",
     result_type: str = "prediction",
-    base_seg_folder: str = "/g/kreshuk/talks/domain_gap/experiments/patch_segmentation",
+    base_seg_folder: str = "",
 ):
     assert Path(
         base_seg_folder

@@ -290,7 +290,7 @@ def get_summary_results(
     per_target_norms: bool = True,
     consis_postfix: str = "mean",
     perf_postfix: str = "mean",
-    base_seg_dir: str = "/g/kreshuk/talks/domain_gap/experiments/patch_segmentation",
+    base_seg_dir: str = "",
 ):
     consis_PT_PA_strength: Dict[str, Dict[str, Dict[str, NDArray[Any]]]] = {}
     perf_PT_PA_strength: Dict[str, Dict[str, Dict[str, NDArray[Any]]]] = {}
