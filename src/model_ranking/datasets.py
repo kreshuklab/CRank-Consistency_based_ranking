@@ -10,7 +10,7 @@ import skimage
 
 from pytorch3dunet.augment.transforms import StandardLabelToBoundary, Relabel
 
-from plantseg.dataprocessing import (  # pyright: ignore[reportMissingTypeStubs]
+from plantseg.functionals.dataprocessing import (  # pyright: ignore[reportMissingTypeStubs]
     set_background_to_value,  # pyright: ignore[reportUnknownVariableType]
 )
 from pytorch3dunet.unet3d.utils import (
