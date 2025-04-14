@@ -23,9 +23,7 @@ dependencies:
   - scikit-learn
   - scipy
   - setuptools
-  - skan
   - tensorboard
-  - threadpoolctl
   - torchvision
   - tqdm
   - typer
