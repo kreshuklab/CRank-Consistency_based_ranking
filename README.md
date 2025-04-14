@@ -11,8 +11,8 @@
 Clone and navigate to this repository
 
 ```
-git clone https://github.com/kreshuklab/model_ranking.git
-cd model_ranking
+git clone https://github.com/kreshuklab/CRank-Consistency_based_ranking.git
+cd CRank-Consistency_based_ranking
 ```
 
 #### Install model_ranking conda environment
