@@ -1,11 +1,15 @@
 ### Target Datasets
 target_datasets:
   - name: BBBC039
+  - name: DSB2018
+  - name: Hoechst
 
 ### Source Models
 source_models:
   - source_name: BBBC039 
-    model_name: BC_IN_model2
+    model_name: BC_IN_model
+  - source_name: S_BIAD895
+    model_name: 895_IN_model
 
 ### Perturbation Settings
 
@@ -50,11 +54,11 @@ output_settings:
 eval_settings:
   name: MeanAvgPrecision
   eval_save_key: MAP_eval
-  overwrite_score: True
+  overwrite_score: False
 
 consistency_settings:
-  name: Entropy
-  save_key: Entropy_consis
+  name: AdaptedRandError
+  save_key: ARE_consis
   save_mask: True
-  mask_threshold: 0.5
-  overwrite_score: True
+  mask_threshold: null
+  overwrite_score: False
