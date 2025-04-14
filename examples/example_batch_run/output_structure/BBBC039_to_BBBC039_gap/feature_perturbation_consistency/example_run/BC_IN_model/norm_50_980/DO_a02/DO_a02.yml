@@ -7,7 +7,7 @@ model_path: /path/to/Models/Instance/Nuclei/BBBC039/BC_IN_model/best_checkpoint.
 
 summary_results:
   filter_patches: null
-  output_path: /path/to/repo/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/DO_a02/predictions
+  output_path: /path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/DO_a02/predictions
   eval_key: MAP_eval
   consis_key: ARE_consis
   overwrite_scores: false
@@ -38,7 +38,7 @@ predictor:
 
 loaders:
   dataset: TIF_txt_Dataset
-  output_dir: /path/to/repo/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/DO_a02/predictions
+  output_dir: /path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/DO_a02/predictions
   batch_size: 2
   num_workers: 8
   global_norm: true
@@ -66,7 +66,7 @@ evaluation:
     eval_dataset:
       name: TIF_txt_Dataset
       eval:
-        image_dir: [/path/to/repo/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/DO_a02/predictions]
+        image_dir: [/path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/DO_a02/predictions]
         mask_dir:
         - /path/to/data/directory/BBBC039/instance_annotations/instance_labels
         filenames_path: /path/to/data/directory/BBBC039/test.txt
@@ -104,8 +104,8 @@ consistency:
     eval_dataset:
       name: TIF_txt_Dataset
       eval:
-        image_dir: [/path/to/repo/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/DO_a02/predictions]
-        mask_dir: [/path/to/repo/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/none/predictions]
+        image_dir: [/path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/DO_a02/predictions]
+        mask_dir: [/path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/none/predictions]
         filenames_path: /path/to/data/directory/BBBC039/test.txt
         transformer:
           raw:

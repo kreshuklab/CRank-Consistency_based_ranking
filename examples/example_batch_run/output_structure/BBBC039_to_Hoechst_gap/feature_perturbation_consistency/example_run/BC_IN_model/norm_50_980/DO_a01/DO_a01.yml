@@ -1,13 +1,13 @@
 wandb:
   project: BBBC039_IN_predictions
-  name: BC_IN_model_BCtoBC_none
+  name: BC_IN_model_BCtoHst_DO_a01
   mode: online
 
 model_path: /path/to/Models/Instance/Nuclei/BBBC039/BC_IN_model/best_checkpoint.pytorch
 
 summary_results:
   filter_patches: null
-  output_path: /path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/none/predictions
+  output_path: /path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_Hoechst_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/DO_a01/predictions
   eval_key: MAP_eval
   consis_key: ARE_consis
   overwrite_scores: false
@@ -21,57 +21,53 @@ model:
   final_sigmoid: true
   feature_return: false
   is_segmentation: true
-  feature_perturbation: null
+  feature_perturbation:
+    layers:
+    - 0
+    random_seed: 42
+    name: DropOutPerturbation
+    drop_rate: 0.1
+    spatial_dropout: true
 
 predictor:
   name: NucleiInstancePredictor
   save_segmentation: true
-  min_size: 50
+  min_size: 80
   zero_largest_instance: false
   no_adjust_background: false
 
 loaders:
-  dataset: TIF_txt_Dataset
-  output_dir: /path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/none/predictions
+  dataset: Hoechst_Dataset
+  output_dir: /path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_Hoechst_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/DO_a01/predictions
   batch_size: 2
   num_workers: 8
   global_norm: true
   percentiles: [5.0, 98.0]
   test:
     image_dir:
-    - /path/to/data/directory/BBBC039/images
+    - /path/to/data/directory/Hoechst/test_nuclei/images/png
     mask_dir:
-    - /path/to/data/directory/BBBC039/instance_annotations/instance_labels
-    filenames_path: /path/to/data/directory/BBBC039/test.txt
+    - /path/to/data/directory/Hoechst/test_nuclei/annotations
     transformer:
       raw:
       - name: PercentileNormalizer
-      - name: FixedClipping
-        min_value: null
-        max_value: 2
-      - name: CropToFixed
-        size: [512, 512]
-        centered: true
       - name: ToTensor
         expand_dims: true
 
 evaluation:
   eval_dataloader:
     eval_dataset:
-      name: TIF_txt_Dataset
+      name: Hoechst_Dataset
       eval:
-        image_dir: [/path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/none/predictions]
+        image_dir: [/path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_Hoechst_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/DO_a01/predictions]
         mask_dir:
-        - /path/to/data/directory/BBBC039/instance_annotations/instance_labels
-        filenames_path: /path/to/data/directory/BBBC039/test.txt
+        - /path/to/data/directory/Hoechst/test_nuclei/annotations
         transformer:
           raw:
           - name: ToTensor
             expand_dims: true
           label:
-          - name: CropToFixed
-            size: [512, 512]
-            centered: true
+          - name: Relabel
           - name: ToTensor
             expand_dims: true
       expand_dims: true
@@ -79,7 +75,7 @@ evaluation:
       percentiles: null
       image_key: segmentation
       mask_key: null
-      min_object_size: 50
+      min_object_size: 80
       instance_zero_background: false
     batch_size: 1
     num_workers: 8
@@ -96,11 +92,10 @@ evaluation:
 consistency:
   consistency_dataloader:
     eval_dataset:
-      name: TIF_txt_Dataset
+      name: Hoechst_Dataset
       eval:
-        image_dir: [/path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/none/predictions]
-        mask_dir: [/path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_BBBC039_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/none/predictions]
-        filenames_path: /path/to/data/directory/BBBC039/test.txt
+        image_dir: [/path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_Hoechst_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/DO_a01/predictions]
+        mask_dir: [/path/to/CRank/examples/example_batch_run/output_structure/BBBC039_to_Hoechst_gap/feature_perturbation_consistency/example_run/BC_IN_model/norm_50_980/none/predictions]
         transformer:
           raw:
           - name: ToTensor
@@ -113,7 +108,7 @@ consistency:
       percentiles: null
       image_key: segmentation
       mask_key: segmentation
-      min_object_size: 50
+      min_object_size: 80
       instance_zero_background: false
     batch_size: 1
     num_workers: 8
