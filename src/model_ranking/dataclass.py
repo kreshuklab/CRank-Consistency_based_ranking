@@ -435,11 +435,11 @@ class DifferenceImageConfig(ConsistencyMetaConfig, frozen=True):
 
 class EffectiveInvarianceConfig(ConsistencyMetaConfig, frozen=True):
     name: Literal["EI"] = "EI"
-    threshold: float = 0.5
 
     def initialise_metric(self) -> EffectiveInvarianceEval:
+        assert self.mask_threshold is not None, "threshold is not set"
         return EffectiveInvarianceEval(
-            threshold=self.threshold,
+            threshold=self.mask_threshold,
         )
 
     def initialise_score(
@@ -499,11 +499,11 @@ class CrossEntropyConfig(ConsistencyMetaConfig, frozen=True):
 
 class HammingDistanceConfig(ConsistencyMetaConfig, frozen=True):
     name: Literal["Hamming-Distance"] = "Hamming-Distance"
-    threshold: float = 0.5
 
     def initialise_metric(self) -> HammingDistanceEval:
+        assert self.mask_threshold is not None, "mask_threshold is not set"
         return HammingDistanceEval(
-            threshold=self.threshold,
+            threshold=self.mask_threshold,
         )
 
     def initialise_score(self, num_samples: int) -> NDArray[Any]:
