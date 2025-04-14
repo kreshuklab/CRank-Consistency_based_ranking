@@ -7,34 +7,28 @@ channels:
   - nodefaults
 
 dependencies:
-  - python
-  - pytorch
-  - tensorboard
-  - tqdm
-  - setuptools
   - h5py
-  - scipy
-  - scikit-image
-  - pyyaml
-  - pytest
   - imageio
+  - ipykernel
   - matplotlib
   - numpy
   - pathlib
   - pip
+  - plant-seg
+  - pydantic
   - pytest
+  - pytorch
   - pytorch-cuda=12.1
+  - pyyaml
   - scikit-image
   - scikit-learn
   - scipy
   - setuptools
+  - tensorboard
   - tqdm
   - typer
   - typing
   - wandb
-  - pydantic
-  - ipykernel
-  - plant-seg
 
   - pip:
       - torcheval
