@@ -1,8 +1,6 @@
 ### Target Datasets
 target_datasets:
   - name: BBBC039
-  - name: DSB2018
-  - name: Hoechst
 
 ### Source Models
 source_models:
@@ -22,11 +20,8 @@ feature_perturbations:
     - "None"
     - "DropOutPerturbation"
   dropOut_rates:
-    - 0.05
     - 0.1
     - 0.2
-    - 0.3
-    - 0.4
   featureDrop_thresholds: null
   featureNoise_ranges: null 
 
@@ -47,7 +42,7 @@ summary_results:
 output_settings:
   result_dir: example_run
   approach: feature_perturbation_consistency
-  base_dir_path: /g/kreshuk/talks/CRank/examples/example_batch_run
+  base_dir_path: /path/to/repo/examples/example_batch_run/output_structure
 
 
 ### Performance and Consistency evaluation settings
