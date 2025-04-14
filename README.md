@@ -21,6 +21,13 @@ cd CRank-Consistency_based_ranking
 conda env create -f environment.yaml
 conda activate model_ranking
 ```
+
+
+#### Download Pre-trained models
+
+The model checkpoints and training configs are saved on zenodo and can be downloaded and unzipped https://doi.org/10.5281/zenodo.15209567
+
+
 #### Use Weights and Biases logging
 - Login/Sign up at https://wandb.ai/login
 - Get your api token at https://wandb.ai/authorize (you'll be ask to provide this token on the first hylfm run, specifically on import wandb)
