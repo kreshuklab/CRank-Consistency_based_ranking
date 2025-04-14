@@ -96,6 +96,7 @@ def calc_consistency_score(
             batch_scores, batch_consis_mask = metric(perturbed_pred, unperturbed_pred)
 
         else:
+            assert metric_cfg.mask_threshold is not None, "mask_threshold is not set"
             batch_consis_mask = get_mask(
                 unperturbed_pred, perturbed_pred, metric_cfg.mask_threshold
             )

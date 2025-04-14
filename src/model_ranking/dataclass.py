@@ -60,7 +60,7 @@ class ConsistencyMetricConfig(BaseModel):
 class ConsistencyMetaConfig(BaseModel, frozen=True):
     save_key: str
     save_mask: bool
-    mask_threshold: float
+    mask_threshold: Optional[float]
     overwrite_score: bool
 
 
