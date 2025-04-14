@@ -98,8 +98,6 @@ class AdaptedRandErrorEval:
     ) -> Tuple[NDArray[Any], NDArray[Any]]:
         pred_converted = avoid_int_overflow(pred.astype(np.uint16), np.max(pred))
         gt_converted = avoid_int_overflow(gt.astype(np.uint16), np.max(gt))
-        # pred_converted = pred.cpu().numpy().astype("uint16")
-        # gt_converted = gt.cpu().numpy().astype("uint16")
         metric_result, mask = adaRandError_eval(
             pred_converted,
             gt_converted,
@@ -108,10 +106,6 @@ class AdaptedRandErrorEval:
             num_erosions=self.num_erosions,
         )
         return (metric_result, mask)
-        # return (
-        #    torch.from_numpy(metric_result).to(pred.device).float(),
-        #    torch.from_numpy(mask).to(pred.device).float(),
-        # )
 
 
 class DifferenceImageEval:
