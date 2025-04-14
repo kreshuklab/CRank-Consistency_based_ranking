@@ -141,6 +141,27 @@ def get_model_path(
     else:
         base_dir = Path(base_dir_path) / "Semantic"
 
+    if source_data in [
+        "BBBC039",
+        "DSB2018",
+        "Go-Nuclear",
+        "HeLaNuc",
+        "Hoechst",
+        "S_BIAD634",
+        "S_BIAD895",
+        "S_BIAD1196",
+        "S_BIAD1410",
+    ]:
+        base_dir = base_dir / "Nuclei"
+    elif source_data in ["FlyWing", "Ovules", "PNAS"]:
+        base_dir = base_dir / "Cells"
+    elif source_data in ["EPFL", "Hmito", "Rmito", "VNC"]:
+        base_dir = base_dir / "Mitochondria"
+    else:
+        raise ValueError(
+            f"Unknown source data {source_data}, please check the source data name"
+        )
+
     model_paths = list(
         base_dir.glob(f"{source_data}/**/" + f"{model_name}/best_checkpoint.pytorch")
     )
