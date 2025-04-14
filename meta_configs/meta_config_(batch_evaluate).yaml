@@ -37,7 +37,7 @@ input_augs:
 ### General Run Settings
 overwrite_yaml: True
 segmentation_mode: instance
-run_mode: full
+run_mode: evaluation
 data_base_path: /path/to/data/directory
 model_dir_path: /path/to/model/directory
 summary_results:
@@ -56,9 +56,5 @@ eval_settings:
   eval_save_key: MAP_eval
   overwrite_score: False
 
-consistency_settings:
-  name: AdaptedRandError
-  save_key: ARE_consis
-  save_mask: True
-  mask_threshold: null
-  overwrite_score: False
+consistency_settings: null
+

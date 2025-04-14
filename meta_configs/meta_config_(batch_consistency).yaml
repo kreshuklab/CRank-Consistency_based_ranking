@@ -51,10 +51,7 @@ output_settings:
 
 
 ### Performance and Consistency evaluation settings
-eval_settings:
-  name: MeanAvgPrecision
-  eval_save_key: MAP_eval
-  overwrite_score: False
+eval_settings: null
 
 consistency_settings:
   name: AdaptedRandError
