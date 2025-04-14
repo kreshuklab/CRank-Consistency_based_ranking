@@ -43,7 +43,7 @@ conda activate CRank
 ```
 
 #### Batch run prediciton and evaluation
-To perform a batch of inference runs between a set of source models transferred to a set of target datasets and then calculate ground-truth performance metrics and consistency scores, specifiy a suitable ","meta_config.yaml" file (example given meta_configs/) and run the script batch_prediction_evaluation.py. To run on GPU optionally specify a cuda device.
+To perform a batch of inference runs between a set of source models transferred to a set of target datasets and then calculate ground-truth performance metrics and consistency scores, specifiy a suitable "meta_config.yaml" file (example given meta_configs/) and run the script batch_prediction_evaluation.py. To run on GPU optionally specify a cuda device.
 
 ```
 CUDA_VISIBLE_DEVICES=6 python batch_prediction_evaluation.py --config path/to/meta_config.yaml
@@ -64,6 +64,10 @@ CUDA_VISIBLE_DEVICES=6 python batch_consistency.py --config path/to/consistency/
 #### Use Weights and Biases logging
 - Login/Sign up at https://wandb.ai/login
 - Get your api token at https://wandb.ai/authorize (you'll be ask to provide this token on the first run, specifically on import wandb)
+
+
+## Viewing output summaries
+The scripts described above will automatically save the results to a summary metric file containing per patch performance and consistency scores along with averages and standard deviations. These can be loaded using the "get_summary_results()" function in "src/model_ranking/results.py".
 
 
 ## Data used in Paper
