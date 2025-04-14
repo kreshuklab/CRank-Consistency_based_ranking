@@ -38,8 +38,8 @@ input_augs:
 overwrite_yaml: True
 segmentation_mode: instance
 run_mode: full
-data_base_path: /scratch/talks/data
-model_dir_path: ""
+data_base_path: /path/to/data/directory
+model_dir_path: /path/to/model/directory
 summary_results:
   overwrite_scores: False
 
@@ -47,7 +47,7 @@ summary_results:
 output_settings:
   result_dir: test
   approach: feature_perturbation_consistency
-  base_dir_path: /g/kreshuk/talks/model_ranking/scripts/test_scripts/sweep3
+  base_dir_path: /path/to/output/directory
 
 
 ### Performance and Consistency evaluation settings
