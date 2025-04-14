@@ -19,7 +19,7 @@ cd CRank-Consistency_based_ranking
 
 ```
 conda env create -f environment.yaml
-conda activate model_ranking
+conda activate CRank
 ```
 
 #### Download Pre-trained models
@@ -39,7 +39,7 @@ Within the scripts folder there are mulitple scripts that allow easy interaction
 #### Activate conda environment
 
 ```
-conda activate model_ranking
+conda activate CRank
 ```
 
 #### Batch run prediciton and evaluation
