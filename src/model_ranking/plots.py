@@ -5,35 +5,32 @@ from numpy.typing import NDArray
 from typing import Any, List, Mapping, Sequence, Tuple
 
 
-def plot_aug_sweep(
-    A: NDArray[Any],
-    B: NDArray[Any],
+def plot_perturbation_sweep(
+    consis_scores: NDArray[Any],
+    perf_scores: NDArray[Any],
     x_label: str,
     y_label: str,
     title: str,
     transfer_labels: List[str],
     perturbation_labels: List[str],
+    invert_consis_metric: bool = True,
+    invert_perf_metric: bool = False,
     style: str = "default",
-    figsize: tuple[int, int] = (10, 8),
-    legend_size: int = 20,
-    fontsize: int = 20,
-    xlim: Sequence[int] = [0, 1],
-    ylim: Sequence[int] = [0, 1],
-    point_size: int = 100,
+    figsize: tuple[int, int] = (12, 9),
+    legend_size: int = 22,
+    fontsize: int = 28,
+    xlim: Sequence[float] = [0.59, 1],
+    ylim: Sequence[float] = [0.3, 1],
+    point_size: int = 500,
     fit_lines: bool = True,
     grid_alpha: float = 0.6,
     point_alpha: float = 0.6,
-    line_alpha: float = 0.5,
+    line_alpha: float = 0.8,
     line_width: int = 2,
     legend1_position: tuple[float, float] = (0, 1),
-    legend2_position: tuple[float, float] = (0.3, 1),
+    legend2_position: tuple[float, float] = (0, 0.7),
     save_fig_path: str = "",
-):
-    # Set the matplotlib style
-    plt.style.use(style)
-
-    # Define colors and markers
-    colors = [
+    colors: List[str] = [
         "#377eb8",
         "#ff7f00",
         "#4daf4a",
@@ -43,18 +40,27 @@ def plot_aug_sweep(
         "#999999",
         "#e41a1c",
         "#dede00",
-    ]  # Colors for each row of A
+    ],
+):
+    # Set the matplotlib style
+    plt.style.use(style)
     markers = ["o", "s", "x", "D", "^", "v", "p", "*"]  # Markers for each column of A
 
     # Initialize the figure
     _, ax = plt.subplots(figsize=figsize)
 
+    # Invert the metrics if specified
+    if invert_consis_metric:
+        consis_scores = 1 - consis_scores
+    if invert_perf_metric:
+        perf_scores = 1 - perf_scores
+
     # Loop over each column in A
-    for col_idx in range(A.shape[1]):
-        for row_idx in range(A.shape[0]):
+    for col_idx in range(consis_scores.shape[1]):
+        for row_idx in range(consis_scores.shape[0]):
             _ = ax.scatter(
-                A[row_idx, col_idx],
-                B[row_idx],
+                consis_scores[row_idx, col_idx],
+                perf_scores[row_idx],
                 color=colors[row_idx],
                 marker=markers[col_idx],
                 s=point_size,
@@ -63,7 +69,7 @@ def plot_aug_sweep(
             )
         if fit_lines:
             # Fit a linear regression line
-            slope, intercept = np.polyfit(A[:, col_idx], B, 1)
+            slope, intercept = np.polyfit(consis_scores[:, col_idx], perf_scores, 1)
             x = np.linspace(xlim[0], xlim[1], 100)
             y = slope * x + intercept
             _ = ax.plot(
