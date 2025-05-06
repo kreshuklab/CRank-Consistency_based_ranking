@@ -205,9 +205,6 @@ class HammingDistanceEval:
     def __call__(
         self, pred: NDArray[Any], gt: NDArray[Any], mask: NDArray[Any]
     ) -> NDArray[Any]:
-        # pred_converted = pred.cpu().numpy().astype("uint16")
-        # gt_converted = gt.cpu().numpy().astype("uint16")
-        # mask_converted = mask.cpu().numpy().astype("bool")
         if pred.ndim == 2:
             if np.sum(mask) == 0:
                 metric_result = np.array([np.nan])
