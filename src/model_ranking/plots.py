@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import numpy as np
 from numpy.typing import NDArray
-from typing import Any, List, Mapping, Sequence, Tuple
+from typing import Any, List, Mapping, Tuple
 
 
 def plot_perturbation_sweep(
@@ -19,8 +19,8 @@ def plot_perturbation_sweep(
     figsize: tuple[int, int] = (12, 9),
     legend_size: int = 22,
     fontsize: int = 28,
-    xlim: Sequence[float] = [0.59, 1],
-    ylim: Sequence[float] = [0.3, 1],
+    xlim: Tuple[float, float] = (0.59, 1),
+    ylim: Tuple[float, float] = (0.3, 1),
     point_size: int = 500,
     fit_lines: bool = True,
     grid_alpha: float = 0.6,
@@ -154,6 +154,8 @@ def plot_multitarget_correlations(
     invert_perf_metric: bool = False,
     figsize: Tuple[int, int] = (10, 8),
     fit_line: bool = True,
+    xlim: Tuple[float, float] = (0.19, 1.05),
+    ylim: Tuple[float, float] = (0, 1),
     point_size: int = 500,
     legend_size: int = 28,
     fontsize: int = 30,
@@ -203,8 +205,8 @@ def plot_multitarget_correlations(
     _ = plt.legend(
         prop={"size": legend_size}, title="Target dataset", title_fontsize=legend_size
     )
-    _ = plt.xlim(0.19, 1.05)
-    _ = plt.ylim(0, 1)
+    _ = plt.xlim(xlim)
+    _ = plt.ylim(ylim)
     _ = plt.xlabel(consis_metric_name, fontsize=fontsize)
     _ = plt.ylabel(perf_metric_name, fontsize=fontsize)
     _ = plt.xticks(fontsize=fontsize - 5)  # pyright: ignore[reportUnknownVariableType]
