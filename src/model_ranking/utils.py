@@ -1,14 +1,17 @@
-import os
 import fnmatch
-from typing import Optional, List, Sequence, Any, Tuple, TypeGuard, Union
-from pathlib import Path
+import h5py  # pyright: ignore[reportMissingTypeStubs]
+import os
+import re
+
 import matplotlib.pyplot as plt
+import numpy as np
+import torch
+
+from h5py import File  # pyright: ignore[reportMissingTypeStubs]
 from matplotlib.colors import ListedColormap
 from numpy.typing import NDArray
-import h5py  # pyright: ignore[reportMissingTypeStubs]
-from h5py import File  # pyright: ignore[reportMissingTypeStubs]
-import numpy as np
-import re
+from pathlib import Path
+from typing import Any, List, Optional, Sequence, Tuple, TypeGuard, Union
 
 from pytorch3dunet.datasets.utils import (
     get_class,  # pyright: ignore[reportUnknownVariableType]
@@ -79,6 +82,10 @@ def get_roi_slice(roi: Sequence[Sequence[int]]) -> tuple[slice, ...]:
 
 def is_ndarray(v: Any) -> TypeGuard[NDArray[Any]]:
     return isinstance(v, np.ndarray)
+
+
+def is_torch_tensor(v: Any) -> TypeGuard[torch.Tensor]:
+    return isinstance(v, torch.Tensor)
 
 
 def check_for_no_aug_configs(
