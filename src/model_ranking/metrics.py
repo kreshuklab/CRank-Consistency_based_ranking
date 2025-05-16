@@ -114,8 +114,19 @@ class DifferenceImageEval:
         super().__init__()
         self.diff_alpha = diff_alpha
 
-    def __call__(self, pred: NDArray[Any], gt: NDArray[Any]) -> NDArray[Any]:
-        return np.abs(pred**self.diff_alpha - gt**self.diff_alpha)
+    def __call__(
+        self,
+        pred: NDArray[Any],
+        gt: NDArray[Any],
+        consis_mask: Optional[NDArray[Any]] = None,
+    ) -> NDArray[Any]:
+        metric_result = np.abs(pred**self.diff_alpha - gt**self.diff_alpha)
+
+        if consis_mask is not None:
+            mask_inverted = np.logical_not(consis_mask)
+            metric_result[mask_inverted] = None
+
+        return metric_result
 
 
 class EffectiveInvarianceEval:
