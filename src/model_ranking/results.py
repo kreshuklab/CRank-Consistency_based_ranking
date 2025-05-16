@@ -195,6 +195,11 @@ def save_summary_metrics(
         consis_median = None
         consis_std = None
 
+    if (performance_scores is not None) and (consis_PP is not None):
+        assert len(performance_scores) == len(
+            consis_PP
+        ), f"performance_scores and consis_PP must have the same length, but got {len(performance_scores)} and {len(consis_PP)}"
+
     # save scores in h5 file in parent directory
     save_path = Path(config.output_path).parent / "metric_summary.h5"
 
