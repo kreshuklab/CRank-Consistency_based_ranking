@@ -30,6 +30,21 @@ from pytorch3dunet.unet3d.metrics import (
     InstanceAveragePrecision,
 )
 
+FEATURE_PERTURBATION_TYPE = Literal[
+    "DropOutPerturbation",
+    "FeatureDropPerturbation",
+    "FeatureNoisePerturbation",
+    "None",
+]
+
+INPUT_PERTURBATION_TYPE = Literal[
+    "brt",
+    "ctr",
+    "gamma",
+    "gauss",
+    "none",
+]
+
 
 class ConsistencyMetricConfig(BaseModel):
     metric: Literal[
@@ -763,14 +778,7 @@ class Pytorch3DUnetModelConfig(Pytorch3DUnetModelMetaConfig, frozen=True):
 
 
 class FeaturePerturbationConfig(BaseModel):
-    perturbation_types: Sequence[
-        Literal[
-            "DropOutPerturbation",
-            "FeatureDropPerturbation",
-            "FeatureNoisePerturbation",
-            "None",
-        ]
-    ]
+    perturbation_types: Sequence[FEATURE_PERTURBATION_TYPE]
     layers: Sequence[int]
     dropOut_rates: Optional[Sequence[float]]
     spatial_dropout: Optional[bool]
@@ -781,7 +789,7 @@ class FeaturePerturbationConfig(BaseModel):
 
 class OutputSettingsConfig(BaseModel):
     result_dir: str
-    approach: str
+    approach: Literal["consistency", "feature_perturbation_consistency"]
     base_dir_path: str
 
 
@@ -3052,9 +3060,9 @@ class MetaConfig(BaseModel):
     overwrite_yaml: bool
     data_base_path: str
     model_dir_path: str
-    feature_perturbations: FeaturePerturbationConfig
+    feature_perturbations: Optional[FeaturePerturbationConfig]
+    input_augs: Dict[INPUT_PERTURBATION_TYPE, List[Tuple[float, float]]]
     output_settings: OutputSettingsConfig
-    input_augs: Dict[str, List[Tuple[float, float]]]
     eval_settings: Optional[
         Annotated[
             Union[
