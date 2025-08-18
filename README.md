@@ -40,32 +40,20 @@ All of the scripts require a single command line argument --config which defines
 
 The meta_config.yaml has a specific structure defined by the pydantic model `MetaConfig()`, which can be found in `src/model_ranking/dataclass.py`, and is summarised below. Examples of suitable meta configs can be found in `examples/meta_configs`.
 
-MetaConfig():
-    - **target_datasets**: Sequence of target dataset configs defning the datasets which will be investigated in this run. In practice since TargetConfigs have predefined default values, we only need to specify the dataset names to run with default settings.
-
-    - **source_models**: Sequence of source models that will be used to predict on each of the target datasets, again can be specified just as a sequence of names.
-
-    - **segmentation_mode**: Specify if instance or semantic segmentation. Appropriate models should be used.
-
-    - **run_mode**: Specify if running full sweep with prediction, performance evaluation and consistency evaluation. Or if only performance evaluation or only conistency evaluation.
-
-    - **summary_results**: Define settings for saving summary results.
-
-    - **overwrite_yaml**: Boolean flag to overwrite any exisiting run config yamls.
-
-    - **data_base_path**: Path to data directory containing target datasets.
-
-    - **model_dir_path**: Path to directory containing source model checkpoints.
-
-    - **feature_perturbations**: Defining feature space perturbation settings, used for consistency calculation if required.
-
-    - **input_augs**: Defining input perturbation settings, used for consistency calculation if required.
-
-    - **output_settings**: Defining output settings.
-
-    - **eval_settings**: Defining performance evaluation metric settings, if required.
-
-    - **consistency_settings**: Defining consistency metric settings, if required.
+**MetaConfig():**
+- **target_datasets**: Sequence of target dataset configs defining the datasets which will be investigated in this run. In practice since TargetConfigs have predefined default values, we only need to specify the dataset names to run with default settings.
+- **source_models**: Sequence of source models that will be used to predict on each of the target datasets, again can be specified just as a sequence of names.
+- **segmentation_mode**: Specify if instance or semantic segmentation. Appropriate models should be used.
+- **run_mode**: Specify if running full sweep with prediction, performance evaluation and consistency evaluation. Or if only performance evaluation or only conistency evaluation.
+- **summary_results**: Define settings for saving summary results.
+- **overwrite_yaml**: Boolean flag to overwrite any exisiting run config yamls.
+- **data_base_path**: Path to data directory containing target datasets.
+- **model_dir_path**: Path to directory containing source model checkpoints.
+- **feature_perturbations**: Defining feature space perturbation settings, used for consistency calculation if required.
+- **input_augs**: Defining input perturbation settings, used for consistency calculation if required.
+- **output_settings**: Defining output settings.
+- **eval_settings**: Defining performance evaluation metric settings, if required.
+- **consistency_settings**: Defining consistency metric settings, if required.
 
 #### Activate conda environment
 
