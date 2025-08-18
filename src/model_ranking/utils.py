@@ -1,7 +1,17 @@
 import os
 import fnmatch
-from typing import Optional, List, Sequence, Any, Tuple, TypeGuard, Union
+from typing import (
+    Optional,
+    List,
+    Sequence,
+    Any,
+    Tuple,
+    TypeGuard,
+    Union,
+    Dict,
+)
 from pathlib import Path
+from tqdm import tqdm
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from numpy.typing import NDArray
@@ -9,6 +19,7 @@ import h5py  # pyright: ignore[reportMissingTypeStubs]
 from h5py import File  # pyright: ignore[reportMissingTypeStubs]
 import numpy as np
 import re
+from skimage.transform import resize  # pyright: ignore[reportUnknownVariableType]
 
 from pytorch3dunet.datasets.utils import (
     get_class,  # pyright: ignore[reportUnknownVariableType]
@@ -279,3 +290,58 @@ def get_output_dir(
     # Create save folder if it doesn't exist
     Path(output_path).mkdir(parents=True, exist_ok=True)
     return output_path
+
+
+def copy_h5_dataset(
+    source_path: Union[str, Path], target_path: Union[str, Path], dataset_name: str
+):
+    # Check if the target file exists
+    if not os.path.exists(target_path):
+        # Create a new target file
+        with h5py.File(target_path, "w") as f:
+            pass
+
+    # Check if the dataset already exists in the target file
+    with h5py.File(target_path, "r") as f:
+        if dataset_name in f:
+            raise ValueError(
+                f"Dataset '{dataset_name}' already exists in the target file"
+            )
+
+    # Copy the dataset from the source file to the target file
+    with h5py.File(source_path, "r") as source, h5py.File(target_path, "a") as target:
+        source_dataset = source[dataset_name]
+        _ = target.create_dataset(dataset_name, data=source_dataset)
+
+
+def xy_resize_scaling(source: str, target: str) -> float:
+    dataset_xy_pixel_size_nm: Dict[str, Union[int, float]] = {
+        "EPFL": 5,
+        "Hmito": 8,
+        "Rmito": 8,
+        "VNC": 4.6,
+    }
+    xy_scaling = dataset_xy_pixel_size_nm[target] / dataset_xy_pixel_size_nm[source]
+    return xy_scaling
+
+
+def resize_data_label_pair(
+    data: NDArray[Any], label: NDArray[Any], xy_scale: float, raw_order: int = 3
+):
+    resized_shape = (
+        data.shape[0],
+        int(np.round(data.shape[1] * xy_scale)),
+        int(np.round(data.shape[2] * xy_scale)),
+    )
+    resized_volume = np.zeros(resized_shape, dtype=np.float32)
+    resized_label = np.zeros(resized_shape, dtype=np.uint8)
+    for z, (z_slice, z_slice_label) in enumerate(
+        tqdm(zip(data, label), desc=f"resize per z-slice")
+    ):
+        resized_volume[z] = resize(
+            z_slice, (resized_shape[1], resized_shape[2]), order=raw_order
+        )
+        resized_label[z] = resize(
+            z_slice_label, (resized_shape[1], resized_shape[2]), order=0
+        )
+    return resized_volume, resized_label
