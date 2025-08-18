@@ -1,6 +1,6 @@
-### Information about Target datasets:
+# Information about Target datasets:
 
-Each of the datasets linked above has an associated Pydantic model associated with it defined in `src/model_ranking/dataclass.py`. A pydantic model is very similar/equivalent to a standard python dataclass and each model contains all the neccessary meta data required to run the methods from the repo with that dataset. The models are named with the following nomenclature, {Dataset_Name}TargetConfig. Each model come with prefilled arguments in the various field for convenience and to provide the same setting neccessary reproduce the paper results. :exclamation Importantly :exclamation relative paths to data locations are specified in the varoius dataloader meta data, it is required to arrange the datasets with the same file structure, or to update the relavent arguments, for the code to run.
+Each of the datasets has an associated Pydantic model associated with it defined in `src/model_ranking/dataclass.py`. A pydantic model is very similar/equivalent to a standard python dataclass and each model contains all the neccessary meta data required to run the methods from the repo with that dataset. The models are named with the following nomenclature, {Dataset_Name}TargetConfig. Each model come with prefilled arguments in the various field for convenience and to provide the same setting neccessary reproduce the paper results. :exclamation Importantly :exclamation relative paths to data locations are specified in the varoius dataloader meta data, it is required to arrange the datasets with the same file structure, or to update the relavent arguments, for the code to run.
 
 All the aforementioned Target Dataset configs inherit from TargetDatasetConfigBase and have the following standard structure.
 
@@ -16,12 +16,12 @@ All the aforementioned Target Dataset configs inherit from TargetDatasetConfigBa
 - **filter_results**: Defining class to filter results if desired.
 
 
-### Target Dataset Directory Structure
+# Target Dataset Directory Structure
 In the code it is assumed that each target dataset, identified by name, is stored with a particular directory structure. In this way the correct paths can be identified and the correct Dataloaders and predictors utilised. Below is a summary of the assumed correct directory structure per dataset.
 
 
-#### Mitochondria (EM)
-- EPFL -- https://www.epfl.ch/labs/cvlab/data/data-em/ 
+## Mitochondria (EM)
+**EPFL** -- https://www.epfl.ch/labs/cvlab/data/data-em/ 
 
 EPFL is a volume EM dataset containing semantic labels of mitochondria. The dataset consists of train.h5, test.h5 and val.h5 files that each contain 3D datavolumes. The raw and label datavolumes in each file have keys "raw" and "labels" respectively. The pixels have been resized to the same scale as the Hmito/Rmito dataset.
 
@@ -32,7 +32,7 @@ EPFL/
 └── val.h5
 ```
 
-- Hmito -- https://mitoem.grand-challenge.org/
+**Hmito** -- https://mitoem.grand-challenge.org/
 
 Hmito is a volume EM dataset containing semantic labels of mitochondria. The dataset consists of train_converted.h5, test_converted.h5 and val_converted.h5 files that each contain 3D datavolumes. The raw and label datavolumes in each file have keys "raw" and "labels" respectively. The volumes have been converted to only contain semantic mitochondria labels.
 
@@ -43,7 +43,7 @@ Hmito/
 └── val_converted.h5
 ```
 
-- Rmito -- https://mitoem.grand-challenge.org/
+**Rmito** -- https://mitoem.grand-challenge.org/
 
 Rmito is a volume EM dataset containing semantic labels of mitochondria. The dataset consists of train_converted.h5, test_converted.h5 and val_converted.h5 files that each contain 3D datavolumes. The raw and label datavolumes in each file have keys "raw" and "labels" respectively. The volumes have been converted to only contain semantic mitochondria labels.
 
@@ -54,7 +54,7 @@ Rmito/
 └── val_converted.h5
 ```
 
-- VNC -- https://connectomics.hms.harvard.edu/adult-drosophila-vnc-tem-dataset-female-adult-nerve-cord-fanc
+**VNC** -- https://connectomics.hms.harvard.edu/adult-drosophila-vnc-tem-dataset-female-adult-nerve-cord-fanc
 
 VNC is a volume EM dataset containing semantic labels of mitochondria. The dataset consists of a single h5 file that contains raw and label 3D datavolumes. The raw and label datavolumes have keys "raw" and "labels" respectively. The pixels have been resized to the same scale as the Hmito/Rmito dataset. There is only a single volume and due to data constraints we trained the VNC model on the entire dataset and so no VNC source model -> VNC target dataset transfer should be performed.
 
@@ -65,8 +65,8 @@ VNC/
 
 
 
-#### Nuclei (Light Microscopy)
-- BBBC039 -- https://bbbc.broadinstitute.org/BBBC039
+## Nuclei (Light Microscopy)
+**BBBC039** -- https://bbbc.broadinstitute.org/BBBC039
 
 BBBC039 is fluorescent nuclei dataset, with instance annotations of each nuclei. Images are stored as individual 2D .tif files and their corresponding labels as individual 2D .png files. All images/labels are stored in a single directory and can be identified by a unique filename. Within `datasets/BBBC039` is provided test.txt, train.txt and val.txt which contain sets of line seperated filenames to identify test, train, val split of dataset.
 
@@ -88,7 +88,7 @@ BBBC039/
 └── val.txt
 ```
 
-- DSB2018 -- https://bbbc.broadinstitute.org/BBBC038
+**DSB2018** -- https://bbbc.broadinstitute.org/BBBC038
 
 DSB2018 is fluorescent nuclei dataset, with instance annotations of each nuclei. Images are stored as individual 2D .tif files and their corresponding labels likewise stored as individual 2D .tif files. Only a test set was used as no DSB2018 model was trained.
 
@@ -108,7 +108,7 @@ dsb2018_fluorescence/
 ```
 
 
-- Go-Nuclear -- https://www.ebi.ac.uk/biostudies/BioImages/studies/S-BIAD1026?query=S-BIAD1026
+**Go-Nuclear** -- https://www.ebi.ac.uk/biostudies/BioImages/studies/S-BIAD1026?query=S-BIAD1026
 
 Go-Nuclear is fluorescent nuclei dataset, with instance annotations of each nuclei. The dataset consists of multiple h5 files, containing 3D "raw/clear" data volumes and a "label/gold" data volumes for the raw and label data respectively. All the h5 file are in a single directory.  Within `datasets/Go-Nuclear` is provided test.txt, train.txt, which contain sets of line seperated filenames to identify test vs train split of the dataset.
 
@@ -122,7 +122,7 @@ Go-Nuclear/
     └── 1170.h5
 ```
 
-- HeLaNuc -- https://rodare.hzdr.de/record/3001
+**HeLaNuc** -- https://rodare.hzdr.de/record/3001
 
 HeLaNuc is fluorescent nuclei dataset, with instance annotations of each nuclei. Images are stored as individual .tif files and their corresponding labels as individual .tif files. Images and labels are split into train, test and val directories.
 
@@ -147,7 +147,7 @@ HeLaNuc/
     └── nuclei_masks/
 ```
 
-- Hoechst -- https://zenodo.org/records/6657260
+**Hoechst** -- https://zenodo.org/records/6657260
 
 Hoechst is fluorescent nuclei dataset, with instance annotations of each nuclei. Images are stored as multiple .tif files each of which contains a 3D stack of data, the corresponding labels are stored equivalently. Images and labels are split into train, test and val (development_nuclei) directories.
 
@@ -173,7 +173,7 @@ Hoechst/
     └── images/
 ```
 
-- S-BIAD634 -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD634?query=S-BIAD634
+**S-BIAD634** -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD634?query=S-BIAD634
 
 S-BIAD634 is fluorescent nuclei dataset, with instance annotations of each nuclei. Images are stored as individual .tif files and their corresponding labels are likewise stored as individual .tif files. All images/labels are stored in a single directory and can be identified by a unique filename. Within `datasets/S-BIAD634` is provided test.txt, train.txt, which contain sets of line seperated filenames to identify test vs train split of the dataset.
 
@@ -195,7 +195,7 @@ S-BIAD634/
 └── train.txt
 ```
 
-- S-BIAD895 -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD895
+**S-BIAD895** -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD895
 
 S-BIAD895 is fluorescent nuclei dataset, with instance annotations of each nuclei. Images are stored as individual 2D .tif files and their corresponding labels are likewise stored as individual 2D .tif files. Images and labels are split into Train, Test directories. :exclamation Importantly :exclamation you may notice that the inference/evaluation loaders use the `Train` subset during prediction and evaluation. This is not a mistake, but was decided as the `Test` set was too small to get a reliable consistency measure. Hence importantly we never perform S-BIAD895 source model -> S-BIAD895 Target Dataset transfer in order to avoid data leakage.
 
@@ -222,10 +222,10 @@ S-BIAD895/
                     └── ...
 ```
 
-- S-BAID1196 (SELMA3D) -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD1196?query=S-BIAD1196
+**S-BAID1196** (SELMA3D) -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD1196?query=S-BIAD1196
 
 
-S-BIAD895 is fluorescent nuclei dataset, with instance annotations of each nuclei. The dataset consists of h5 files, containing 3D "raw" data volumes and a "label" data volumes. Images and labels are split into train, test and val directories.
+S-BIAD1196 is fluorescent nuclei dataset, with instance annotations of each nuclei. The dataset consists of h5 files, containing 3D "raw" data volumes and a "label" data volumes. Images and labels are split into train, test and val directories.
 
 Dataset: StandardHDFDataset
 
@@ -244,7 +244,7 @@ S-BIAD1196/
                 └── ...
 ```
 
-- S-BIAD1410 -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD1410?query=S-BIAD1410
+**S-BIAD1410** -- https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD1410?query=S-BIAD1410
 
 S-BIAD1410 is fluorescent nuclei dataset, with instance annotations of each nuclei. The dataset consists of  multiple .tif files each of which contains a 3D stack of data, the corresponding labels are stored equivalently. Images and labels are split into train, test directories.
 
@@ -265,8 +265,8 @@ S-BIAD1410/
         └── ...
 ```
 
-#### Cells (Light Microscopy)
-- FlyWing -- https://elifesciences.org/articles/57613
+## Cells (Light Microscopy)
+**FlyWing** -- https://elifesciences.org/articles/57613
 
 FlyWing is a Fluorescent cell dataset, with instance cell labels. The dataset consists of mulitple h5 files that each contain 3D data volumes. The keys to the raw and label volumes are "volumes/raw" and "volumes/labels/cells_with_ignore" respectively. Train, test and val images are stored in seperate directories.
 
@@ -284,7 +284,7 @@ FlyWing/
         └── ...
 ```
 
-- Ovules -- https://elifesciences.org/articles/57613
+**Ovules** -- https://elifesciences.org/articles/57613
 
 Ovules is a Fluorescent dataset, with instance cell labels. The dataset consists of mulitple h5 files that each contain 3D data volumes. The keys to the raw and label volumes are "raw" and "label_with_ignore" respectively. Train, test and val images are stored in seperate directories.
 
@@ -303,7 +303,7 @@ Ovules/
         └── ...
 ```
 
-- PNAS -- https://pubmed.ncbi.nlm.nih.gov/27930326/ 
+**PNAS** -- https://pubmed.ncbi.nlm.nih.gov/27930326/ 
 
 PNAS is a Fluorescent dataset, with instance cell labels. The dataset consists of mulitple h5 files that each contain 3D data volumes. The keys to the raw and label volumes are "raw" and "label" respectively. Train, test and val images are stored in seperate directories.
 
