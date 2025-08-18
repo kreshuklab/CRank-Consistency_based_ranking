@@ -36,6 +36,24 @@ Links to data locations or refeerences given below, data must be downloaded. The
 
 Within the scripts folder there are mulitple scripts that allow easy interaction with the repository and to reproduce the results of the paper.
 
+All of the scripts require a single command line argument --config which defines a path to a `meta_config.yaml` that defines the arguments to be used in that particular script. The general structure of the code base is that the user defines a meta config which defines a transfer sweep between a set of source models and target datasets. When running the scripts they will automatically generate individual transfer yamls which define the arguments for one specfic transfer (Source model -> Target dataset). The results and correspponding transfer yamls will be saved in a specific structure as illustrated in `examples/example_batch_run/output_structure`.
+
+The meta_config.yaml has a specific structure defined by the pydantic model `MetaConfig()`, which can be found in `src/model_ranking/dataclass.py`, and is summarised below. Examples of suitable meta configs can be found in `examples/meta_configs`. 
+MetaConfig():
+    - **target_datasets**: Sequence of target dataset configs defning the datasets which will be investigated in this run. In practice since TargetConfigs have predefined default values, we only need to specify the dataset names to run with default settings.
+    - **source_models**: Sequence of source models that will be used to predict on each of the target datasets, again can be specified just as a sequence of names.
+    - **segmentation_mode**: Specify if instance or semantic segmentation. Appropriate models should be used.
+    - **run_mode**: Specify if running full sweep with prediction, performance evaluation and consistency evaluation. Or if only performance evaluation or only conistency evaluation.
+    - **summary_results**: Define settings for saving summary results.
+    - **overwrite_yaml**: Boolean flag to overwrite any exisiting run config yamls.
+    - **data_base_path**: Path to data directory containing target datasets.
+    - **model_dir_path**: Path to directory containing source model checkpoints.
+    - **feature_perturbations**: Defining feature space perturbation settings, used for consistency calculation if required.
+    - **input_augs**: Defining input perturbation settings, used for consistency calculation if required.
+    - **output_settings**: Defining output settings.
+    - **eval_settings**: Defining performance evaluation metric settings, if required.
+    - **consistency_settings**: Defining consistency metric settings, if required.
+
 #### Activate conda environment
 
 ```
@@ -46,18 +64,18 @@ conda activate CRank
 To perform a batch of inference runs between a set of source models transferred to a set of target datasets and then calculate ground-truth performance metrics and consistency scores, specifiy a suitable "meta_config.yaml" file (example given meta_configs/) and run the script batch_prediction_evaluation.py. To run on GPU optionally specify a cuda device.
 
 ```
-CUDA_VISIBLE_DEVICES=6 python batch_prediction_evaluation.py --config path/to/meta_config.yaml
+CUDA_VISIBLE_DEVICES=0 python batch_prediction_evaluation.py --config path/to/meta_config.yaml
 ```
 
 #### Batch run only Evaluation/Consistency
-To perform a batch of performance evaluations or consistency scores between a set of source models transferred to a set of target datasets, specify a suitbale "meta_config.yaml" with "run_mode=evaluation or consistency" and then run the script "batch_evaluate.py" or "batch_consistency.py" respectively.
+To perform a batch of performance evaluations or consistency scores between a set of source models transferred to a set of target datasets, specify a suitable "meta_config.yaml" with "run_mode=evaluation or consistency" and then run the script "batch_evaluate.py" or "batch_consistency.py" respectively.
 
 ```
-CUDA_VISIBLE_DEVICES=6 python batch_evaluate.py --config path/to/evaluation/meta_config.yaml
+CUDA_VISIBLE_DEVICES=0 python batch_evaluate.py --config path/to/evaluation/meta_config.yaml
 ```
 
 ```
-CUDA_VISIBLE_DEVICES=6 python batch_consistency.py --config path/to/consistency/meta_config.yaml
+CUDA_VISIBLE_DEVICES=0 python batch_consistency.py --config path/to/consistency/meta_config.yaml
 ```
 
 
@@ -94,4 +112,20 @@ The scripts described above will automatically save the results to a summary met
 - Ovules -- https://elifesciences.org/articles/57613 
 - PNAS -- https://pubmed.ncbi.nlm.nih.gov/27930326/ 
 
+### Information about running code with datasets:
+
+Each of the datasets linked above has an associated Pydantic model associated with it defined in `src/model_ranking/dataclass.py`. A pydantic model is very similar/equivalent to a standard python dataclass and each model contains all the neccessary meta data required to run the methods from the repo with that dataset. The models are named with the following nomenclature, {Dataset_Name}TargetConfig. Each model come with prefilled arguments in the various field for convenience and to provide the same setting neccessary reproduce the paper results. :exclamation Importantly :exclamation relative paths to data locations are specified in the varoius dataloader meta data, it is required to arrange the datasets with the same file structure, or to update the relavent arguments, for the code to run.
+
+All the aforementioned Target Dataset configs inherit from TargetDatasetConfigBase and have the following standard structure.
+
+class TargetDatasetConfigBase
+    - **name**: Name of dataset taken from select supported `Literal`
+    - **loader**: Defining the meta data for the inferance Dataloader Class, there are 4 implemented classes.
+    - **predictor_semantic**: Defining the meta data for the semantic segmentation predictor class.
+    - **eval_dataloader_instance**: Defining the meta data for the instance segmentation predictor class.
+    - **eval_dataloader_semantic**: Defining the meta data for the semantic segmentation evaluation Dataloader Class.
+    - **eval_dataloader_instance**: Defining the meta data for the instance segmentation evaluation Dataloader Class.
+    - **consis_dataloader_semantic**: Defining the meta data for the semantic segmentation consistency score Dataloader Class.
+    - **consis_dataloader_instance**: Defining the meta data for the instance segmentation consistency score Dataloader Class.
+    - **filter_results**: Defining class to filter results if desired.
 
