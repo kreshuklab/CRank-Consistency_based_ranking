@@ -31,6 +31,7 @@ from model_ranking.dataclass import (
     InputGaussianConfig,
     InputPerturbationConfig,
     Pytorch3DUnetLoaderMetaConfig,
+    INPUT_PERTURBATION_TYPE,
 )
 from model_ranking.utils import get_output_dir
 
@@ -82,8 +83,8 @@ def save_yaml(
 
 
 def generate_aug_config(
-    aug_strengths: Dict[str, List[Tuple[float, float]]],
-    aug_abbr: Dict[str, str] = {
+    aug_strengths: Dict[INPUT_PERTURBATION_TYPE, List[Tuple[float, float]]],
+    aug_abbr: Dict[INPUT_PERTURBATION_TYPE, str] = {
         "brt": "RandomBrightness",
         "ctr": "RandomContrast",
         "gamma": "RandomGamma",
@@ -215,74 +216,83 @@ def generate_run_yamls(config_path: Union[str, Path]) -> Dict[str, List[Path]]:
         )
         feat_pert_cfg = meta_cfg.feature_perturbations
         model_cfgs: Dict[str, Pytorch3DUnetModelConfig] = {}
-        for feature_perturbation in feat_pert_cfg.perturbation_types:
-            feature_abbrev = FEATURE_PERTURBATION_ABBREVIATIONS[feature_perturbation]
-            if feature_perturbation != "None":
-                if feature_perturbation == "DropOutPerturbation":
-                    assert (
-                        feat_pert_cfg.dropOut_rates is not None
-                    ), "dropOut rates not provided"
-                    assert (
-                        feat_pert_cfg.spatial_dropout is not None
-                    ), "spatial dropout not provided"
-                    for dropOut_rate in feat_pert_cfg.dropOut_rates:
-                        feature_perturbation_config = DropOutPerturbationConfig(
-                            name=feature_perturbation,
-                            random_seed=feat_pert_cfg.random_seed,
-                            layers=feat_pert_cfg.layers,
-                            drop_rate=dropOut_rate,
-                            spatial_dropout=feat_pert_cfg.spatial_dropout,
-                        )
-                        feature_str = f"_a{str(dropOut_rate).replace('.','')}"
-                        model_cfgs[feature_abbrev + feature_str] = (
-                            source_model.create_config(
-                                feature_perturbation=feature_perturbation_config
+        if feat_pert_cfg is not None:
+            for feature_perturbation in feat_pert_cfg.perturbation_types:
+                feature_abbrev = FEATURE_PERTURBATION_ABBREVIATIONS[
+                    feature_perturbation
+                ]
+                if feature_perturbation != "None":
+                    if feature_perturbation == "DropOutPerturbation":
+                        assert (
+                            feat_pert_cfg.dropOut_rates is not None
+                        ), "dropOut rates not provided"
+                        assert (
+                            feat_pert_cfg.spatial_dropout is not None
+                        ), "spatial dropout not provided"
+                        for dropOut_rate in feat_pert_cfg.dropOut_rates:
+                            feature_perturbation_config = DropOutPerturbationConfig(
+                                name=feature_perturbation,
+                                random_seed=feat_pert_cfg.random_seed,
+                                layers=feat_pert_cfg.layers,
+                                drop_rate=dropOut_rate,
+                                spatial_dropout=feat_pert_cfg.spatial_dropout,
                             )
-                        )
+                            feature_str = f"_a{str(dropOut_rate).replace('.','')}"
+                            model_cfgs[feature_abbrev + feature_str] = (
+                                source_model.create_config(
+                                    feature_perturbation=feature_perturbation_config
+                                )
+                            )
 
-                elif feature_perturbation == "FeatureDropPerturbation":
-                    assert (
-                        feat_pert_cfg.featureDrop_thresholds is not None
-                    ), "featureDrop thresholds not provided"
-                    for featureDrop_th in feat_pert_cfg.featureDrop_thresholds:
-                        feature_perturbation_config = FeatureDropPerturbationConfig(
-                            name=feature_perturbation,
-                            random_seed=feat_pert_cfg.random_seed,
-                            layers=feat_pert_cfg.layers,
-                            lower_th=featureDrop_th[0],
-                            upper_th=featureDrop_th[1],
-                        )
-                        feature_str = f"_a{str(featureDrop_th[0]).replace('.','')}-{str(featureDrop_th[1]).replace('.','')}"
-                        model_cfgs[feature_abbrev + feature_str] = (
-                            source_model.create_config(
-                                feature_perturbation=feature_perturbation_config
+                    elif feature_perturbation == "FeatureDropPerturbation":
+                        assert (
+                            feat_pert_cfg.featureDrop_thresholds is not None
+                        ), "featureDrop thresholds not provided"
+                        for featureDrop_th in feat_pert_cfg.featureDrop_thresholds:
+                            feature_perturbation_config = FeatureDropPerturbationConfig(
+                                name=feature_perturbation,
+                                random_seed=feat_pert_cfg.random_seed,
+                                layers=feat_pert_cfg.layers,
+                                lower_th=featureDrop_th[0],
+                                upper_th=featureDrop_th[1],
                             )
-                        )
-                elif feature_perturbation == "FeatureNoisePerturbation":
-                    assert (
-                        feat_pert_cfg.featureNoise_ranges is not None
-                    ), "featureNoise ranges not provided"
-                    for featureNoise_range in feat_pert_cfg.featureNoise_ranges:
-                        feature_perturbation_config = FeatureNoisePerturbationConfig(
-                            name=feature_perturbation,
-                            random_seed=feat_pert_cfg.random_seed,
-                            layers=feat_pert_cfg.layers,
-                            uniform_range=featureNoise_range,
-                        )
+                            feature_str = f"_a{str(featureDrop_th[0]).replace('.','')}-{str(featureDrop_th[1]).replace('.','')}"
+                            model_cfgs[feature_abbrev + feature_str] = (
+                                source_model.create_config(
+                                    feature_perturbation=feature_perturbation_config
+                                )
+                            )
+                    elif feature_perturbation == "FeatureNoisePerturbation":
+                        assert (
+                            feat_pert_cfg.featureNoise_ranges is not None
+                        ), "featureNoise ranges not provided"
+                        for featureNoise_range in feat_pert_cfg.featureNoise_ranges:
+                            feature_perturbation_config = (
+                                FeatureNoisePerturbationConfig(
+                                    name=feature_perturbation,
+                                    random_seed=feat_pert_cfg.random_seed,
+                                    layers=feat_pert_cfg.layers,
+                                    uniform_range=featureNoise_range,
+                                )
+                            )
 
-                        feature_str = f"_a{str(featureNoise_range).replace('.','')}"
-                        model_cfgs[feature_abbrev + feature_str] = (
-                            source_model.create_config(
-                                feature_perturbation=feature_perturbation_config
+                            feature_str = f"_a{str(featureNoise_range).replace('.','')}"
+                            model_cfgs[feature_abbrev + feature_str] = (
+                                source_model.create_config(
+                                    feature_perturbation=feature_perturbation_config
+                                )
                             )
-                        )
+                    else:
+                        assert_never(feature_perturbation)
                 else:
-                    assert_never(feature_perturbation)
-            else:
-                feature_name = feature_abbrev
-                model_cfgs[feature_name] = source_model.create_config(
-                    feature_perturbation=None
-                )
+                    feature_name = feature_abbrev
+                    model_cfgs[feature_name] = source_model.create_config(
+                        feature_perturbation=None
+                    )
+        else:
+            feature_name = "none"
+            model_cfg = source_model.create_config(feature_perturbation=None)
+            model_cfgs[feature_name] = model_cfg
 
         for target_cfg in meta_cfg.target_datasets:
             transfer_title = f"{source_model.source_name}_to_{target_cfg.name}"
@@ -495,11 +505,10 @@ def generate_run_yamls(config_path: Union[str, Path]) -> Dict[str, List[Path]]:
                     )
 
                     if (a := augs_cfg[aug_name]) != None:
-                        transforms = target_cfg.loader.transformer["raw"].insert(
-                            -2, a.model_dump()
-                        )
+                        transforms = target_cfg.loader.transformer["raw"].copy()
+                        transforms.insert(-1, a.model_dump())
                         pred_loader = target_cfg.loader.model_copy(
-                            update={"transformer": transforms}
+                            update={"transformer": {"raw": transforms}}
                         )
 
                     else:
