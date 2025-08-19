@@ -395,6 +395,9 @@ FlyWing is a Fluorescent cell dataset, with instance cell labels. The dataset co
 
 Dataset: StandardHDF5Dataset
 
+#### Dataset Preprocessing
+The train, test and val splits used are specifed by the train.txt, test.txt and val.txt files located in `data/FlyWing`.
+
 #### Directory Structure
 
 ```
@@ -416,6 +419,9 @@ https://elifesciences.org/articles/57613
 Ovules is a Fluorescent dataset, with instance cell labels. The dataset consists of mulitple h5 files that each contain 3D data volumes. The keys to the raw and label volumes are "raw" and "label_with_ignore" respectively. Train, test and val images are stored in seperate directories.
 
 Dataset: StandardHDF5Dataset
+
+#### Dataset Preprocessing
+The train, test and val splits used are specifed by the train.txt, test.txt and val.txt files located in `data/Ovules`.
 
 #### Directory Structure
 
@@ -439,6 +445,9 @@ https://pubmed.ncbi.nlm.nih.gov/27930326/
 PNAS is a Fluorescent dataset, with instance cell labels. The dataset consists of mulitple h5 files that each contain 3D data volumes. The keys to the raw and label volumes are "raw" and "label" respectively. Train, test and val images are stored in seperate directories.
 
 Dataset: StandardHDF5Dataset
+
+#### Dataset Preprocessing
+The train, test and val splits used are specifed by the train.txt, test.txt and val.txt files located in `data/PNAS`.
 
 #### Directory Structure
 
